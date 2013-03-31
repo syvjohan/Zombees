@@ -1,0 +1,2 @@
+Main-Class: Main
+Class-Path: lwjgl\jar\lwjgl.jar lwjgl\jar\lwjglutil.jar

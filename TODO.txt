@@ -1,0 +1,15 @@
+
+Application Entrypoint -> Application Class
+
+....Application Class....
+  ->Handles GameStateManager management.
+
+....GameStateManager....
+  ->State Machine
+    ->States:
+      ->Menu
+      ->Singleplayer
+      ->Multiplayer
+      ->Editor
+      ->Exit
+
