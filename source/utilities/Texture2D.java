@@ -29,6 +29,10 @@ public class Texture2D {
       GL11.GL_FLOAT,
       pixelData
     );
+
+    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0); 
   }
 
   // Binds this texture as the active texture in the gl context.
