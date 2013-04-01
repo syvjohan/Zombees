@@ -17,7 +17,7 @@ public class Main {
       Application.run();     
       // Gotta catch em' all!
     } catch(Exception e) {
-      JOptionPane.showConfirmDialog(null, e.getStackTrace(), "ERROR", JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showConfirmDialog(null, e.getStackTrace(), e.toString(), JOptionPane.ERROR_MESSAGE);
     }
     
 		
