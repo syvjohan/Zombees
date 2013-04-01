@@ -8,6 +8,10 @@ import java.awt.image.BufferedImage;
 import java.nio.ByteOrder;
 import org.lwjgl.opengl.GL11;
 
+
+/* Texture class with LWJGL-GL dependencies.
+ * can load opengl compatible images and acts
+ * as a wrapper around opengl texture methods.*/
 public class Texture2D {
 
   private FloatBuffer pixelData = null;
@@ -18,6 +22,7 @@ public class Texture2D {
   // Registers this texture width the gl context.
   public void makeGLResource() {
     glTextureID = GL11.glGenTextures();
+    bindToGLContext();
 
     GL11.glTexImage2D(
       GL11.GL_TEXTURE_2D,
@@ -25,6 +30,7 @@ public class Texture2D {
       GL11.GL_RGBA,
       width,
       height,
+      0,
       GL11.GL_RGBA,
       GL11.GL_FLOAT,
       pixelData
@@ -32,12 +38,19 @@ public class Texture2D {
 
     GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
     GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0); 
+    
+    unbindFromGLContext();
   }
 
   // Binds this texture as the active texture in the gl context.
   public void bindToGLContext() {
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, glTexutreID);
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, glTextureID);
+  }
+
+  // Can unbind any texture really, mainly there to
+  // make code look more consistent.
+  public void unbindFromGLContext() {
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
   }
 
   public FloatBuffer getPixelData() {

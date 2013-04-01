@@ -3,83 +3,16 @@ package graphics;
 import org.lwjgl.opengl.*;
 import org.lwjgl.*;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import utilities.Settings;
-import java.awt.image.*;
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.nio.FloatBuffer;
-import org.lwjgl.BufferUtils;
-import java.awt.Color;
-import utilities.TextureUtilities;
+import utilities.Texture2D;
+import java.io.IOException;
 
 public class Renderer {
 
   private static Renderer singleton;
 
-  int testImg;
+  Texture2D testImage;
 
-  // Retrieve inner data of an image 
-  private FloatBuffer getImageBuffer(BufferedImage bi) {
-    int size = bi.getWidth() * bi.getHeight();
-    int w = bi.getWidth();
-    int h = bi.getHeight(); 
-
-    int[] imgData = bi.getRGB(0, 0, w, h, null, 0, w);
-    float[] bufferData = new float[size * 4];
-    int bdIndex = 0;
-    for(int i = 0; i < imgData.length; ++i) {
-      Color c = new Color(imgData[i]);
-
-      bufferData[bdIndex++] = c.getRed() / 255f;
-      bufferData[bdIndex++] = c.getGreen() / 255f;
-      bufferData[bdIndex++] = c.getBlue() / 255f;
-      bufferData[bdIndex++] = c.getAlpha() / 255f;
-    }
-
-    FloatBuffer fb = BufferUtils.createFloatBuffer(size * 4);
-    fb.put(bufferData);
-    fb.flip();
-
-    System.out.println(fb.order());
-    return fb;
-  }
-
-
-  // Displays the flow of loading an image for OpenGL through javas API.
-  private void testCreateImage() {
-    BufferedImage bi = null;
-
-    try {
-      bi = ImageIO.read(new File("test.png"));  
-    } catch(Exception e) {
-      JOptionPane.showMessageDialog(null, e.getStackTrace(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-  
-    testImg = GL11.glGenTextures();
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, testImg);
-
-    FloatBuffer imgData = TextureUtilities.getImageDataBuffer(bi);
-    //FloatBuffer imgData = getImageBuffer(bi);
-
-    //assert false;
-
-    GL11.glTexImage2D(
-      GL11.GL_TEXTURE_2D,
-      0,
-      GL11.GL_RGBA,
-      bi.getWidth(),
-      bi.getHeight(),
-      0,
-      GL11.GL_RGBA,
-      GL11.GL_FLOAT,
-      imgData
-    ); 
-
-    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-  }
 
   private Renderer()
   {
@@ -91,9 +24,19 @@ public class Renderer {
       System.exit(0);
     }
   
+    // Enable textures
     GL11.glEnable(GL11.GL_TEXTURE_2D);
-    // Experimenting..
-    testCreateImage();
+
+    try {
+      // Load our image.
+      testImage = Texture2D.fromFile("derp.png");  
+    } catch(IOException ioe) {
+
+      // TODO : Do something useful about missing textures..
+    }
+    
+    // Make the texture a GL resource.
+    testImage.makeGLResource();
 
     // Initialize orthographic matrix of size 800*600 with a clipping distance between 1 and -1
     GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -120,7 +63,7 @@ public class Renderer {
 
 
     // Bind texture for sampling..
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, testImg);
+    testImage.bindToGLContext();
 
     // Draw quad
     GL11.glBegin(GL11.GL_QUADS);
@@ -138,7 +81,7 @@ public class Renderer {
     GL11.glEnd();
 
     // Unbind when done
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, testImg);
+    testImage.unbindFromGLContext();
 
     Display.update();
   }
