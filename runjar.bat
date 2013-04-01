@@ -1,1 +1,1 @@
-java -jar bin\jar\Zombees.jar
+java -jar -ea bin\jar\Zombees.jar

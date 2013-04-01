@@ -13,8 +13,13 @@ public class Main {
 		
     System.setProperty("org.lwjgl.librarypath", new File("lwjgl\\native\\windows").getAbsolutePath());
 
-
-    Application.run();   
+    try {
+      Application.run();     
+      // Gotta catch em' all!
+    } catch(Exception e) {
+      JOptionPane.showConfirmDialog(null, e.getStackTrace(), "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
+    
 		
 	}
 

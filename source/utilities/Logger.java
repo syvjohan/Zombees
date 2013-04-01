@@ -1,11 +1,9 @@
 package utilities;
-
-import eventsystem.IEventListener;
-import eventsystem.BaseEvent;
-import eventsystem.EventManager;
+import eventsystem.*;
 import java.io.*;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
+import eventsystem.EventType;
 
 public class Logger implements IEventListener {
 
@@ -13,6 +11,14 @@ public class Logger implements IEventListener {
 
   private String filename;
 
+
+  public static Logger getInstance() {
+
+    // Logger must be initialized before use. Needs better planning.
+    assert singleton != null;
+
+    return singleton;
+  }
 
   public static void initialize(String filename) {
     singleton = new Logger(filename);
@@ -29,6 +35,9 @@ public class Logger implements IEventListener {
 
   @Override
   public boolean handleEvent(BaseEvent event) {
+
+    String msg = "Event: " + event.getEventType().getName();
+    log(msg);
 
     return false;
   } 
@@ -52,10 +61,12 @@ public class Logger implements IEventListener {
       now.get(Calendar.SECOND)
     );
 
+    // Outputs log entries into the sublime console! - TODO REMOVE
     System.out.println(format + message);
+
     try {
-      FileWriter fstream = new FileWriter(filename);
-      fstream.write(format + message);
+      FileWriter fstream = new FileWriter(filename, true);
+      fstream.write(format + message + "\r\n");
       fstream.flush();
       fstream.close();
     } catch(Exception e) {

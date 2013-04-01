@@ -6,16 +6,27 @@ public class GameStateManager {
 	
 	GameStateBase currentState = null;
 	
-	private GameStateManager()  {
-	
+	public static GameStateManager getInstance() {
+		if(singleton == null) {
+			singleton = new GameStateManager();
+		}
+
+		return singleton;
 	}
 
-	public void update(double deltaTime) {
-		
+
+	public static void update(double deltaTime) {
+		singleton.memberUpdate(deltaTime);
 	}
 	
 	
+	private GameStateManager()  {
 	
+	}	
+
+	private void memberUpdate(double deltaTime) {
+
+	}
 	
 	
 }

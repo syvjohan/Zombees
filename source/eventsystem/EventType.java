@@ -2,13 +2,18 @@ package eventsystem;
 
 public class EventType {
 
-  static String kWildCard = "WildCard";
+  public static final EventType kWildCard = new EventType("wildcard");
 
   private int hashCode = -1;
   private String eventName = "";
 
   public EventType(String name) {
-    hashCode = name.toLowerCase().hashCode();
+    if(name != "wildcard") {
+      hashCode = name.toLowerCase().hashCode();  
+    } else {
+      hashCode = 0;
+    }
+    
     eventName = name.toLowerCase();
   }
 
