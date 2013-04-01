@@ -43,14 +43,18 @@ public class Renderer {
     // Clear screen and depth buffer
     GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
-    // Set color of quad
-    GL11.glColor3f(0.5f, 0.5f, 1.0f);
+
+    // Now with gourad shading!
 
     // Draw quad
     GL11.glBegin(GL11.GL_QUADS);
+      GL11.glColor3f(1f, 0f, 0f);
       GL11.glVertex2f(100,100);
+      GL11.glColor3f(0f, 1.0f, 0.0f);
       GL11.glVertex2f(100+200, 100);
+      GL11.glColor3f(0f, 0.0f, 1.0f);
       GL11.glVertex2f(100+200, 100+200);
+      GL11.glColor3f(1f, 0.0f, 1.0f);
       GL11.glVertex2f(100, 100+200);
     GL11.glEnd();
 

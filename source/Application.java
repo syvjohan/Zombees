@@ -2,6 +2,7 @@
 import gamestates.*;
 
 import graphics.Renderer;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.input.Keyboard;
 import eventsystem.*;
 import eventsystem.events.*;
@@ -13,6 +14,7 @@ public class Application implements IEventListener {
 
   private GameStateManager gameStateManager;
   private boolean isRunning;
+  private int loops;
 
   private Application() {
     gameStateManager = GameStateManager.getInstance();
@@ -65,18 +67,32 @@ public class Application implements IEventListener {
     // setup time variables
     double now = System.nanoTime(), then = now, delta = 0;
 
+    loops = 0;
+    double frameTimer = 0;
     isRunning = true;
     while(isRunning) {
 
       now = System.nanoTime();
-      delta = (now - then) / 1000000.0;
+
+      // We get time in a given amount of nanoseconds, we convert to seconds here.
+      delta = (now - then) / 1000000000.0;
 
       gameStateManager.update(delta);
       EventManager.processEvents();
       
       Renderer.renderScene();
+      
+      // Wannabe fps meter.
+      ++loops;
+      frameTimer += delta;
+      if(frameTimer >= 1.0) {
+        Display.setTitle("Zombees!   FPS: " + loops);
+        loops = 0;
+        frameTimer = 0.0;
+      }
 
-      if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+      // Fire a close window request event if the user presses escape or clicks the X!
+      if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || Display.isCloseRequested()) {
         EventManager.pushEventDirect(new WindowCloseRequestEvent());
       }
 
@@ -85,8 +101,10 @@ public class Application implements IEventListener {
   }
 
   private void setupLogger() {
+    // Obtain the absolute path of the class' execution instance.
     String logFilePath = singleton.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
     
+    // Find the last fwd-slash so we can filter the filename from the path.
     int li = -1;
     for(int i = 0; i < logFilePath.length(); ++i) {
       if(logFilePath.charAt(i) == '/') {
@@ -94,8 +112,12 @@ public class Application implements IEventListener {
       }
     }
 
+    // Append our logfiles name to the path.
     logFilePath = logFilePath.substring(1, li) + "/game.log";
+
+    // Announce the path for debugging purposes.
     System.out.println(logFilePath);
+
     Logger.initialize(logFilePath);
   }
 }
