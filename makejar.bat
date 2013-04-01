@@ -1,4 +1,5 @@
 
+FOR /F "tokens=*" %%G IN ('DIR /B /S *.class') DO DEL /S /Q %%G
 call compile.bat
 
 DEL bin\jar\Zombees.jar
