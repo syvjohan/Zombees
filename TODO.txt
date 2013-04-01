@@ -3,6 +3,8 @@ Application Entrypoint -> Application Class
 
 ....Application Class....
   ->Handles GameStateManager management.
+  ->Runs gameloop.
+  ->Triggers rendering.
 
 ....GameStateManager....
   ->State Machine
@@ -12,4 +14,10 @@ Application Entrypoint -> Application Class
       ->Multiplayer
       ->Editor
       ->Exit
+
+....EventSystem....
+  ->EventManager
+  ->IEventListener
+  ->EventType
+  ->BaseEvent
 

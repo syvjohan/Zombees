@@ -1,7 +1,11 @@
 package eventsystem;
 
+
+// Basically a wrapper around a string,
+// Generates a hashcode for every string it gets passed.
 public class EventType {
 
+  // A special event string that lets listeners listen to any event.
   public static final EventType kWildCard = new EventType("wildcard");
 
   private int hashCode = -1;
