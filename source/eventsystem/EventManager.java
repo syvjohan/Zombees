@@ -156,7 +156,9 @@ public class EventManager {
     for(BaseEvent be : activeEvents) {
       processEvent(be);
     }
-
+    
+    // Remove all events.
+    activeEvents.clear();
   }
 
   // Processes a single event from the queue

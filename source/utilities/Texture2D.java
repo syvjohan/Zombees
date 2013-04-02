@@ -9,7 +9,7 @@ import java.nio.ByteOrder;
 import org.lwjgl.opengl.GL11;
 
 
-/* Texture class with LWJGL-GL dependencies.
+/* Texture class with LWJGL-OpenGL dependencies.
  * can load opengl compatible images and acts
  * as a wrapper around opengl texture methods.*/
 public class Texture2D {
@@ -18,6 +18,24 @@ public class Texture2D {
   private int glTextureID = -1;
   private int width;
   private int height;
+  private boolean isGLResource;
+
+  // Intended to be used for creating buffers, text atlases etc.
+  public Texture2D(int width, int height) {
+    this.width = width;
+    this.height = height;
+
+    // Allocate our buffers.
+    createBuffers();
+  }
+
+  // Copies all the pixels within the rectangle defined by x, y, w, h
+  // to this texture starting at targetX, targetY.
+  public void copyFrom(Texture2D src, int targetX, int targetY, 
+    int x, int y, int w, int h) {
+
+
+  }
 
   // Registers this texture width the gl context.
   public void makeGLResource() {
@@ -40,6 +58,14 @@ public class Texture2D {
     GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
     
     unbindFromGLContext();
+
+    isGLResource = true;
+  }
+
+  // Deletes the texture resources from video memory.
+  public void deleteGLResource() {
+    GL11.glDeleteTextures(glTextureID);
+    isGLResource = false;
   }
 
   // Binds this texture as the active texture in the gl context.
@@ -67,6 +93,10 @@ public class Texture2D {
 
   public int getHeight() {
     return height;
+  }
+
+  public boolean isGLResource() {
+    return isGLResource;
   }
 
   /* Static method that allows us to load a texture2D from
@@ -114,6 +144,18 @@ public class Texture2D {
     this.pixelData = pixelData;
     this.width = width;
     this.height = height;
+    this.isGLResource = false;
+  }
+
+  // Called internally to setup correct buffers.
+  private void createBuffers() {
+    // width*height elements with 4 bytes per float and 4 floats per color.
+    ByteBuffer byteBuffer = ByteBuffer.allocateDirect(width * height * 16);
+
+    // Set correct byteorder for the machine.
+    byteBuffer.order(ByteOrder.nativeOrder());
+
+    pixelData = byteBuffer.asFloatBuffer();
   }
 
 

@@ -2,11 +2,16 @@
 import gamestates.*;
 
 import graphics.Renderer;
+import graphics.SpriteManager;
+import resources.ResourceManager;
+import resources.ResourceType;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.input.Keyboard;
 import eventsystem.*;
 import eventsystem.events.*;
 import utilities.Logger;
+
+import graphics.TestSprite;
 
 public class Application implements IEventListener {
 
@@ -32,6 +37,20 @@ public class Application implements IEventListener {
 
       // Make it easier to find the latest session in the log file.
       Logger.log("----------Engine Started!---------");
+
+      // Initialize sprites/textures systems.
+      SpriteManager.initialize();
+
+      // Initialize resource systems.
+      ResourceManager.initialize();
+
+      // Create a test resource..
+      ResourceManager.createResource(ResourceType.Texture, "DerpCat", "derp.png");
+
+      // Random test with a sprite..
+      SpriteManager.registerSprite(new TestSprite());
+
+
 
       EventManager.registerEventType(EventType.kWildCard);
       EventManager.registerEventListener(EventType.kWildCard, Logger.getInstance());

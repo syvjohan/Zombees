@@ -12,7 +12,7 @@ public class EventType {
   private String eventName = "";
 
   public EventType(String name) {
-    if(name != "wildcard") {
+    if(!name.equals("wildcard")) {
       hashCode = name.toLowerCase().hashCode();  
     } else {
       hashCode = 0;
