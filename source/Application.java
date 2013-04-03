@@ -48,7 +48,7 @@ public class Application implements IEventListener {
       ResourceManager.createResource(ResourceType.Texture, "DerpCat", "derp.png");
 
       // Random test with a sprite..
-      SpriteManager.registerSprite(new TestSprite());
+      //SpriteManager.registerSprite(new TestSprite());
 
 
 

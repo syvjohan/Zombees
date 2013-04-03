@@ -1,6 +1,11 @@
 
 Application Entrypoint -> Application Class
 
+.... Purpose ....
+  ->Top down shooters.
+  ->Sidescrolling games.
+  ->Tile-Based Games (Intelligent tile combinations from templates)
+
 ....Application Class....
   ->Handles GameStateManager management.
   ->Runs gameloop.
@@ -21,3 +26,19 @@ Application Entrypoint -> Application Class
   ->EventType
   ->BaseEvent
 
+
+.... Tile Maps ....
+  -> Static tilemap that identifies a map that does not change and makes a  texture out of the entire map..ish.
+
+... Tile Class ...
+  ->Trigger slots for triggering events on entry etc.
+
+
+.... Lighting System ....
+  ->(Textures and shaders)
+  ->
+
+.... Sprite System ....
+  -> Explode Sprites into a shower of "pixels" ( Will probably need to be 
+     4x4 blocks for performance).
+  ->

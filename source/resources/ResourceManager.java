@@ -44,10 +44,12 @@ public class ResourceManager implements IEventListener {
       if(!resource.isLoaded()) {
         resource.loadResource();  
       }
-      
     }
-
     return false;
+  }
+
+  public static Resource getResource(String name) {
+    return singleton.safeGetResource(name);
   }
 
   public static void createResource(ResourceType type, String name, String filepath) {
@@ -69,6 +71,21 @@ public class ResourceManager implements IEventListener {
     return (resource != null);
   }
 
+  private Resource safeGetResource(String name) {
+    Resource resource = resourceMap.get(name);
+
+    // Make sure we're not requesting resources that don't exist.
+    assert resource != null;
+
+    // Make sure the resource is loaded.
+    if(!resource.isLoaded()) {
+      resource.loadResource();
+    }
+
+    return resource;
+  }
+  
+
   // Creates a resource wrapper with the given name and type.
   private void safeCreateResource(ResourceType type, String name, String filepath) {
 
@@ -89,5 +106,9 @@ public class ResourceManager implements IEventListener {
     resourceMap.remove(name);
   }
 }
+      
+
+    
+
 
 

@@ -1,7 +1,7 @@
 
 package graphics;
 
-public class TestSprite extends BaseSprite {
+public abstract class TestSprite extends BaseSprite {
 
   public TestSprite() {
 
