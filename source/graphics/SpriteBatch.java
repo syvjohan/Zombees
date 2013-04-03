@@ -106,22 +106,22 @@ public class SpriteBatch {
 
 
         GL11.glTexCoord2f(
-          entries[i].clip.w / entries[i].texture.getWidth(),
+          (entries[i].clip.x + entries[i].clip.w) / entries[i].texture.getWidth(),
           entries[i].clip.y / entries[i].texture.getHeight()
         );
         // Top right
         GL11.glVertex2f(entries[i].clip.w, 0f);
 
         GL11.glTexCoord2f(
-          entries[i].clip.w / entries[i].texture.getWidth(),
-          entries[i].clip.h / entries[i].texture.getHeight()
+          (entries[i].clip.x + entries[i].clip.w) / entries[i].texture.getWidth(),
+          (entries[i].clip.y + entries[i].clip.h) / entries[i].texture.getHeight()
         );
         // Bottom right
         GL11.glVertex2f(entries[i].clip.w, entries[i].clip.h);
 
         GL11.glTexCoord2f(
           entries[i].clip.x / entries[i].texture.getWidth(),
-          entries[i].clip.h / entries[i].texture.getHeight()
+          (entries[i].clip.y + entries[i].clip.h) / entries[i].texture.getHeight()
         );       
         // Bottom left
         GL11.glVertex2f(0, entries[i].clip.h);

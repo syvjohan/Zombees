@@ -7,6 +7,7 @@ import utilities.Settings;
 import utilities.Texture2D;
 import java.io.IOException;
 import utilities.math.Vec2;
+import utilities.math.ClipRect;
 
 public class Renderer {
 
@@ -96,8 +97,8 @@ public class Renderer {
     batch.draw(
       testImage,
       new Vec2(550, 320),
-      null,
-      new Vec2(testImage.getWidth() / 2, testImage.getHeight() / 2),
+      new ClipRect(32, 32, 32, 32),
+      new Vec2(16, 16),
       0f,
       testScale,
       0
