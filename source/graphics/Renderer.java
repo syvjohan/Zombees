@@ -41,9 +41,10 @@ public class Renderer {
     try {
       // Load our image.
       testImage = Texture2D.fromFile("test.png");  
-      catImage = Texture2D.fromFile("derp.png");
+      catImage = Texture2D.fromFile("Derp.png");
     } catch(IOException ioe) {
 
+      System.out.println("Failed to find testimages.");
       // TODO : Do something useful about missing textures..
     }
     

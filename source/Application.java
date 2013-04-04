@@ -132,7 +132,7 @@ public class Application implements IEventListener {
     }
 
     // Append our logfiles name to the path.
-    logFilePath = logFilePath.substring(1, li) + "/game.log";
+    logFilePath = "/" + logFilePath.substring(1, li) + "/game.log";
 
     // Announce the path for debugging purposes.
     System.out.println(logFilePath);

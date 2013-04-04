@@ -104,7 +104,19 @@ public class Texture2D {
    * or if its corrupt. */
   public static Texture2D fromFile(String filename) throws IOException {
     // Can throw IOException
-    BufferedImage bi = ImageIO.read(new File(filename));
+    // This test should not be here later.. 
+
+    File input = new File(filename);
+    System.out.println("Texture Requested: " + input.getAbsolutePath());
+
+    BufferedImage bi = null;
+    try {
+      bi = ImageIO.read(new File(filename));
+    } catch(Exception ioe) {
+      System.out.println(ioe.toString() + ioe.getStackTrace());
+      return null;
+    }
+    
 
     // Used to determine the same pixel on the next row from the current.
     int scanline = bi.getWidth();

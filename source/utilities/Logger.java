@@ -65,12 +65,19 @@ public class Logger implements IEventListener {
     System.out.println(format + message);
 
     try {
+      File file = new File(filename);
+
+      if(!file.exists()) {
+        System.out.println("Attempting to create: " + filename);
+        file.createNewFile();
+      }
+
       FileWriter fstream = new FileWriter(filename, true);
       fstream.write(format + message + "\r\n");
       fstream.flush();
       fstream.close();
     } catch(Exception e) {
-      JOptionPane.showConfirmDialog(null, e.getStackTrace(), "IO ERROR", JOptionPane.OK_OPTION);
+      JOptionPane.showConfirmDialog(null, e.getStackTrace(), e.toString(), JOptionPane.OK_OPTION);
     }   
   }
 }
