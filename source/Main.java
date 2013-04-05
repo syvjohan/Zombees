@@ -22,7 +22,7 @@ public class Main {
 
     natives = natives.substring(0, i);
     System.out.println(natives);
-    natives += "/lwjgl/native/linux/";
+    natives += "/lwjgl/native/windows/";
 
     System.setProperty("org.lwjgl.librarypath", new File(natives).getAbsolutePath());
 
